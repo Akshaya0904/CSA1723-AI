@@ -1,0 +1,32 @@
+def print_board(board):
+    for row in board:
+        print(" ".join("Q" if x else "." for x in row))
+    print()
+
+def is_safe(board, r, c):
+    for i in range(r):
+        if board[i][c] or \
+           (c - r + i >= 0 and board[i][c - r + i]) or \
+           (c + r - i < 8 and board[i][c + r - i]):
+            return False
+    return True
+
+def solve_queens(board, row):
+    if row == 8:
+        print_board(board)
+        return True
+    for col in range(8):
+        if is_safe(board, row, col):
+            board[row][col] = 1
+            if solve_queens(board, row + 1):
+                return True
+            board[row][col] = 0
+    return False
+
+def solve():
+    board = [[0]*8 for _ in range(8)]
+    if not solve_queens(board, 0):
+        print("No solution.")
+
+if __name__ == "__main__":
+    solve()
